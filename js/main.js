@@ -1,45 +1,56 @@
 /* ================== DATA ================== */
 const CARS = [
   {
-    id: 'bmw3', name: 'BMW 3 Series', year: 2022, cat: 'sedan', price: 140,
+    id: 'bmw3', name: 'BMW 3 Series', year: 2022, cat: 'sedan', price: 140, popularity: 80,
     img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=70',
     gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 5
   },
   {
-    id: 'tesla3', name: 'Tesla Model 3', year: 2023, cat: 'sedan', price: 170, tag: true,
+    id: 'tesla3', name: 'Tesla Model 3', year: 2023, cat: 'sedan', price: 170, tag: true, popularity: 98,
     img: 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&w=800&q=70',
     gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ელექტრო', en: 'Electric' }, seats: 5
   },
   {
-    id: 'crv', name: 'Honda CR-V', year: 2022, cat: 'suv', price: 150,
+    id: 'crv', name: 'Honda CR-V', year: 2022, cat: 'suv', price: 150, popularity: 75,
     img: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=800&q=70',
     gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ჰიბრიდი', en: 'Hybrid' }, seats: 5
   },
   {
-    id: 'expedition', name: 'Ford Expedition', year: 2022, cat: 'suv', price: 220,
+    id: 'expedition', name: 'Ford Expedition', year: 2022, cat: 'suv', price: 220, popularity: 60,
     img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=70',
     gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 7
   },
   {
-    id: 'porsche', name: 'Porsche 911 Turbo', year: 2022, cat: 'sport', price: 450, tag: true,
+    id: 'porsche', name: 'Porsche 911 Turbo', year: 2022, cat: 'sport', price: 450, tag: true, popularity: 92,
     img: 'https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&w=800&q=70',
     gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 2
   },
   {
-    id: 'mustang', name: 'Ford Mustang GT', year: 2021, cat: 'sport', price: 280,
+    id: 'mustang', name: 'Ford Mustang GT', year: 2021, cat: 'sport', price: 280, popularity: 70,
     img: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=800&q=70',
     gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 4
   },
   {
-    id: 'merc-cla', name: 'Mercedes-Benz CLA', year: 2022, cat: 'premium', price: 190,
+    id: 'merc-cla', name: 'Mercedes-Benz CLA', year: 2022, cat: 'premium', price: 190, popularity: 65,
     img: 'https://images.unsplash.com/photo-1570733577524-3a047079e80d?auto=format&fit=crop&w=800&q=70',
     gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 5
   },
   {
-    id: 'amg-gt', name: 'Mercedes-AMG GT', year: 2021, cat: 'premium', price: 400,
+    id: 'amg-gt', name: 'Mercedes-AMG GT', year: 2021, cat: 'premium', price: 400, popularity: 84,
     img: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=70',
     gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 2
   }
+];
+
+/* ================== ADDONS ================== */
+const ADDONS = [
+  { id: 'childseat', price: 15, per: 'day', ka: 'საბავშვო სავარძელი', en: 'Child Seat' },
+  { id: 'sim', price: 5, per: 'flat', ka: 'SIM ბარათი', en: 'SIM Card' },
+  { id: 'insurance', price: 20, per: 'day', ka: 'სრული დაზღვევა', en: 'Full Insurance' },
+  { id: 'driver', price: 10, per: 'day', ka: 'დამატებითი მძღოლი', en: 'Additional Driver' },
+  { id: 'airport', price: 25, per: 'flat', ka: 'მიწოდება აეროპორტში', en: 'Airport Delivery' },
+  { id: 'hotel', price: 20, per: 'flat', ka: 'მიწოდება სასტუმროში', en: 'Hotel Delivery' },
+  { id: 'wifi', price: 8, per: 'day', ka: 'შეუზღუდავი ინტერნეტი', en: 'Unlimited Internet' }
 ];
 
 /* ================== I18N ================== */
@@ -79,7 +90,74 @@ const I18N = {
     foot_addr: 'თბილისი, საქართველო', foot_hours: 'ყოველდღე · 24/7',
     foot_rights: 'ყველა უფლება დაცულია.',
     per_day: 'დღეში', seats: 'ადგილი', book: 'დაჯავშნა', tag_top: 'ტოპ არჩევანი',
-    wa_msg: 'გამარჯობა, მინდა დავჯავშნო: '
+    wa_msg: 'გამარჯობა, მინდა დავჯავშნო: ',
+    nav_faq: 'კითხვები',
+    sort_price_asc: 'ფასი: დაბლიდან მაღლა', sort_price_desc: 'ფასი: მაღლიდან დაბლა',
+    sort_popular: 'პოპულარობით', sort_newest: 'უახლესი მანქანები',
+    search_ph: 'მოძებნე მოდელი (მაგ: BMW)', search_empty: 'მანქანა ვერ მოიძებნა',
+    faq_eyebrow: 'დახმარება', faq_title: 'ხშირად დასმული კითხვები',
+    faq_cat_booking: 'დაჯავშნა', faq_cat_insurance: 'დაზღვევა', faq_cat_payment: 'გადახდა',
+    faq_cat_delivery: 'მიწოდება', faq_cat_cancel: 'გაუქმება',
+    faq_b1_q: 'როგორ დავჯავშნო მანქანა?',
+    faq_b1_a: 'აირჩიე მანქანა ავტოპარკიდან, მიუთითე თარიღები და დაასრულე ჯავშანი "დაჯავშნა" ღილაკზე დაჭერით — ჩვენი გუნდი დაუყოვნებლივ დაგიდასტურებთ.',
+    faq_b2_q: 'რამდენი ხნით ადრე უნდა დავჯავშნო?',
+    faq_b2_a: 'სასურველია მინიმუმ 24 საათით ადრე, თუმცა სეზონზე მოთხოვნის გამო რეკომენდებულია რაც შეიძლება ადრე დაჯავშნა.',
+    faq_b3_q: 'შემიძლია ჯავშნის ცვლილება?',
+    faq_b3_a: 'დიახ, თარიღების ან მანქანის შეცვლა შესაძლებელია აღების დრომდე — დაგვიკავშირდი WhatsApp-ით ან ტელეფონით.',
+    faq_i1_q: 'რა სახის დაზღვევა შედის ფასში?',
+    faq_i1_a: 'ყველა მანქანას აქვს საბაზისო დაზღვევა ჩართული ფასში, რომელიც ფარავს ძირითად რისკებს.',
+    faq_i2_q: 'რას მოიცავს სრული დაზღვევა?',
+    faq_i2_a: 'სრული დაზღვევა (დამატებითი სერვისი) ამცირებს პასუხისმგებლობას დაზიანების შემთხვევაში თითქმის ნულამდე.',
+    faq_i3_q: 'რა ხდება ავარიის შემთხვევაში?',
+    faq_i3_a: 'დაუყოვნებლივ დაგვიკავშირდი — ჩვენი გუნდი გატარებს პროცედურას დაზღვევის კომპანიასთან ერთად.',
+    faq_p1_q: 'რა გადახდის მეთოდებია ხელმისაწვდომი?',
+    faq_p1_a: 'ნაღდი ანგარიშსწორება, საბანკო ბარათი ან გადარიცხვა — მანქანის აღებისას ან წინასწარ.',
+    faq_p2_q: 'საჭიროა თუ არა დეპოზიტი?',
+    faq_p2_a: 'დიახ, აღების დროს ბრუნდებადი დეპოზიტი გადაიხდევინება, რომელიც სრულად უბრუნდება მანქანის დაბრუნებისას.',
+    faq_p3_q: 'არის დამალული გადასახადები?',
+    faq_p3_a: 'არა — ფასი, რომელსაც ხედავ საიტზე, არის საბოლოო ფასი (გარდა შენ მიერ არჩეული დამატებითი სერვისებისა).',
+    faq_d1_q: 'მანქანას მომაწვდიან თუ თვითონ მივიდე?',
+    faq_d1_a: 'შეგვიძლია მანქანა მოგიტანოთ აეროპორტში, სასტუმროში ან სასურველ მისამართზე დამატებითი სერვისის სახით.',
+    faq_d2_q: 'რამდენ ხანში ხდება მიწოდება?',
+    faq_d2_a: 'აეროპორტში ან სასტუმროში მიწოდება საშუალოდ 30-60 წუთში ხდება, შეთანხმებული დროის მიხედვით.',
+    faq_d3_q: 'მუშაობთ ქალაქგარეთაც?',
+    faq_d3_a: 'დიახ, ვმუშაობთ თბილისში, ბათუმსა და ქუთაისში — სხვა ლოკაციაზე დეტალებისთვის დაგვიკავშირდი.',
+    faq_c1_q: 'შემიძლია ჯავშნის გაუქმება?',
+    faq_c1_a: 'დიახ, გაუქმება უფასოა თუ მოხდება აღებამდე 24 საათით ადრე მაინც.',
+    faq_c2_q: 'დაბრუნდება თუ არა გადახდილი თანხა?',
+    faq_c2_a: '24 საათზე ადრე გაუქმებისას თანხა სრულად ბრუნდება; უფრო გვიან გაუქმებისას შესაძლოა დაერიცხოს მცირე საკომისიო.',
+    faq_c3_q: 'როგორ გავაუქმო ჯავშანი?',
+    faq_c3_a: 'მოგვწერე WhatsApp-ში ან დაგვირეკე ჯავშნის ნომრით — გავაუქმებთ დაუყოვნებლივ.',
+    book_modal_eyebrow: 'დაჯავშნა', book_modal_title: 'დაასრულე ჯავშანი',
+    cal_label: 'აირჩიე თარიღები', cal_pick: 'აღება', cal_return: 'დაბრუნება',
+    cal_legend_free: 'თავისუფალია', cal_legend_booked: 'დაკავებულია', cal_legend_sel: 'არჩეული',
+    addons_label: 'დამატებითი სერვისები',
+    price_label: 'ფასის დეტალები', price_daily: 'დღიური ფასი', price_days: 'დღეების რაოდენობა',
+    price_addons: 'დამატებითი გადასახადები', price_deposit: 'დეპოზიტი (ბრუნდება)',
+    price_insurance: 'დაზღვევა', price_insurance_basic: 'საბაზისო — შედის ფასში',
+    price_insurance_full: 'სრული დაზღვევა დამატებულია',
+    price_total: 'ჯამური ფასი', price_includes_title: 'რას მოიცავს ფასი',
+    incl1: 'შეუზღუდავი გარბენი', incl2: 'საბაზისო დაზღვევა', incl3: '24/7 მხარდაჭერა',
+    incl4: 'უფასო წაყვანა-მოყვანა ქალაქში',
+    book_confirm: 'ჯავშნის დადასტურება WhatsApp-ით',
+    day_short: 'დღე', flat_short: 'ერთჯერადი',
+    terms_title: 'წესები და პირობები',
+    foot_terms: 'წესები და პირობები',
+    loc_eyebrow: 'სად ვართ', loc_title: 'ჩვენი ლოკაცია',
+    loc_addr_t: 'მისამართი', loc_hours_t: 'სამუშაო საათები', loc_methods_t: 'დაგვიკავშირდი',
+    terms_h1: 'გაქირავების პირობები',
+    terms_h1_1: 'მძღოლს უნდა ჰქონდეს მინიმუმ 21 წელი და მინიმუმ 1 წლიანი მართვის გამოცდილება.',
+    terms_h1_2: 'საჭიროა მოქმედი მართვის მოწმობა და პირადობის დამადასტურებელი დოკუმენტი.',
+    terms_h1_3: 'მანქანა გაიცემა და მიიღება შეთანხმებულ ლოკაციაზე, შეთანხმებულ დროს.',
+    terms_h2: 'დეპოზიტი და გადახდა',
+    terms_h2_1: 'ბრუნდებადი დეპოზიტი გადაიხდევინება მანქანის აღებისას და ბრუნდება დაზიანების არარსებობის შემთხვევაში.',
+    terms_h2_2: 'ჯამური ღირებულება მოიცავს დღიურ ტარიფს — დამატებითი სერვისები ცალკე ანგარიშდება.',
+    terms_h3: 'საწვავი და გარბენი',
+    terms_h3_1: 'მანქანა გაიცემა სავსე ბაკით და უნდა დაბრუნდეს იმავე დონეზე.',
+    terms_h3_2: 'გარბენზე შეზღუდვა არ ვრცელდება სტანდარტულ ჯავშანზე.',
+    terms_h4: 'გაუქმება',
+    terms_h4_1: 'უფასო გაუქმება შესაძლებელია აღებამდე 24 საათით ადრე.',
+    terms_h4_2: 'უფრო გვიან გაუქმებისას შესაძლოა დაერიცხოს მცირე საკომისიო.'
   },
   en: {
     nav_home: 'Home', nav_fleet: 'Fleet', nav_categories: 'Categories',
@@ -116,8 +194,84 @@ const I18N = {
     foot_addr: 'Tbilisi, Georgia', foot_hours: 'Every day · 24/7',
     foot_rights: 'All rights reserved.',
     per_day: 'per day', seats: 'seats', book: 'Book Now', tag_top: 'Top Choice',
-    wa_msg: 'Hello, I would like to book: '
+    wa_msg: 'Hello, I would like to book: ',
+    nav_faq: 'FAQ',
+    sort_price_asc: 'Price: Low to High', sort_price_desc: 'Price: High to Low',
+    sort_popular: 'Most Popular', sort_newest: 'Newest Cars',
+    search_ph: 'Search model (e.g. BMW)', search_empty: 'No matches found',
+    faq_eyebrow: 'Help', faq_title: 'Frequently Asked Questions',
+    faq_cat_booking: 'Booking', faq_cat_insurance: 'Insurance', faq_cat_payment: 'Payment',
+    faq_cat_delivery: 'Delivery', faq_cat_cancel: 'Cancellation',
+    faq_b1_q: 'How do I book a car?',
+    faq_b1_a: 'Choose a car from the fleet, pick your dates and finish your booking with the "Book Now" button — our team confirms it right away.',
+    faq_b2_q: 'How far in advance should I book?',
+    faq_b2_a: 'At least 24 hours ahead is best, though during high season we recommend booking as early as possible.',
+    faq_b3_q: 'Can I change my booking?',
+    faq_b3_a: 'Yes, dates or the car itself can be changed before pick-up — reach us on WhatsApp or by phone.',
+    faq_i1_q: 'What insurance is included in the price?',
+    faq_i1_a: 'Every car comes with basic insurance included in the price, covering the main risks.',
+    faq_i2_q: "What does full insurance cover?",
+    faq_i2_a: 'Full insurance (an add-on) reduces your liability for damage to nearly zero.',
+    faq_i3_q: 'What happens in case of an accident?',
+    faq_i3_a: 'Contact us immediately — our team will handle the process together with the insurance company.',
+    faq_p1_q: 'What payment methods are available?',
+    faq_p1_a: 'Cash, card, or bank transfer — at pick-up or in advance.',
+    faq_p2_q: 'Is a deposit required?',
+    faq_p2_a: 'Yes, a refundable deposit is taken at pick-up and returned in full when the car is returned.',
+    faq_p3_q: 'Are there any hidden fees?',
+    faq_p3_a: 'No — the price you see on the site is the final price (except for any add-ons you choose).',
+    faq_d1_q: 'Will the car be delivered, or do I pick it up myself?',
+    faq_d1_a: 'We can deliver the car to the airport, your hotel, or any address as an add-on service.',
+    faq_d2_q: 'How long does delivery take?',
+    faq_d2_a: 'Airport or hotel delivery takes about 30-60 minutes on average, depending on the agreed time.',
+    faq_d3_q: 'Do you operate outside the city?',
+    faq_d3_a: 'Yes, we operate in Tbilisi, Batumi and Kutaisi — contact us for details on other locations.',
+    faq_c1_q: 'Can I cancel my booking?',
+    faq_c1_a: 'Yes, cancellation is free if made at least 24 hours before pick-up.',
+    faq_c2_q: 'Will I get my payment back?',
+    faq_c2_a: 'Cancelling more than 24 hours ahead gets a full refund; later cancellations may incur a small fee.',
+    faq_c3_q: 'How do I cancel a booking?',
+    faq_c3_a: 'Message us on WhatsApp or call with your booking details — we will cancel it right away.',
+    book_modal_eyebrow: 'Booking', book_modal_title: 'Complete Your Booking',
+    cal_label: 'Select Dates', cal_pick: 'Pick-up', cal_return: 'Return',
+    cal_legend_free: 'Available', cal_legend_booked: 'Booked', cal_legend_sel: 'Selected',
+    addons_label: 'Additional Services',
+    price_label: 'Price Details', price_daily: 'Daily Rate', price_days: 'Number of Days',
+    price_addons: 'Additional Fees', price_deposit: 'Deposit (refundable)',
+    price_insurance: 'Insurance', price_insurance_basic: 'Basic — included',
+    price_insurance_full: 'Full insurance added',
+    price_total: 'Total Price', price_includes_title: "What's Included",
+    incl1: 'Unlimited mileage', incl2: 'Basic insurance', incl3: '24/7 support',
+    incl4: 'Free pick-up in city',
+    book_confirm: 'Confirm via WhatsApp',
+    day_short: 'day', flat_short: 'one-time',
+    terms_title: 'Terms & Conditions',
+    foot_terms: 'Terms & Conditions',
+    loc_eyebrow: 'Find Us', loc_title: 'Our Location',
+    loc_addr_t: 'Address', loc_hours_t: 'Working Hours', loc_methods_t: 'Contact Us',
+    terms_h1: 'Rental Requirements',
+    terms_h1_1: 'The driver must be at least 21 years old with a minimum of 1 year of driving experience.',
+    terms_h1_2: "A valid driver's license and a government-issued ID are required.",
+    terms_h1_3: 'The car is handed over and returned at the agreed location and time.',
+    terms_h2: 'Deposit & Payment',
+    terms_h2_1: 'A refundable deposit is charged at pick-up and returned in full if the car is undamaged.',
+    terms_h2_2: 'The total cost includes the daily rate — additional services are billed separately.',
+    terms_h3: 'Fuel & Mileage',
+    terms_h3_1: 'The car is handed over with a full tank and must be returned at the same level.',
+    terms_h3_2: 'No mileage limit applies to standard bookings.',
+    terms_h4: 'Cancellation',
+    terms_h4_1: 'Free cancellation is available up to 24 hours before pick-up.',
+    terms_h4_2: 'Later cancellations may incur a small fee.'
   }
+};
+
+const MONTHS = {
+  ka: ['იანვარი','თებერვალი','მარტი','აპრილი','მაისი','ივნისი','ივლისი','აგვისტო','სექტემბერი','ოქტომბერი','ნოემბერი','დეკემბერი'],
+  en: ['January','February','March','April','May','June','July','August','September','October','November','December']
+};
+const WEEKDAYS = {
+  ka: ['ორშ','სამ','ოთხ','ხუთ','პარ','შაბ','კვ'],
+  en: ['Mo','Tu','We','Th','Fr','Sa','Su']
 };
 
 let lang = localStorage.getItem('cc-lang') || 'ka';
@@ -127,6 +281,15 @@ const t = (key) => (I18N[lang] && I18N[lang][key]) || I18N.ka[key] || key;
 const fleetGrid = document.getElementById('fleetGrid');
 const fleetEmpty = document.getElementById('fleetEmpty');
 let activeCat = 'all';
+let activeSort = 'popular';
+let searchQuery = '';
+
+const SORTERS = {
+  popular: (a, b) => b.popularity - a.popularity,
+  price_asc: (a, b) => a.price - b.price,
+  price_desc: (a, b) => b.price - a.price,
+  newest: (a, b) => b.year - a.year
+};
 
 const SPEC_ICONS = {
   gear: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><path d="M6 8.4v7.2M18 8.4V12a2 2 0 0 1-2 2H8.4"/></svg>',
@@ -135,7 +298,6 @@ const SPEC_ICONS = {
 };
 
 function carCard(car) {
-  const wa = 'https://wa.me/995577449977?text=' + encodeURIComponent(t('wa_msg') + car.name + ' (' + car.year + ')');
   return `
   <article class="car-card" data-cat="${car.cat}">
     <div class="car-img">
@@ -158,15 +320,75 @@ function carCard(car) {
         <li>${SPEC_ICONS.fuel}${car.fuel[lang] || car.fuel.ka}</li>
         <li>${SPEC_ICONS.seats}${car.seats} ${t('seats')}</li>
       </ul>
-      <a href="${wa}" class="btn btn-primary car-book" target="_blank" rel="noopener">${t('book')}</a>
+      <button type="button" class="btn btn-primary car-book" data-book="${car.id}">${t('book')}</button>
     </div>
   </article>`;
 }
 
 function renderFleet() {
-  const list = activeCat === 'all' ? CARS : CARS.filter(c => c.cat === activeCat);
+  let list = activeCat === 'all' ? CARS.slice() : CARS.filter(c => c.cat === activeCat);
+  if (searchQuery) list = list.filter(c => c.name.toLowerCase().includes(searchQuery));
+  list.sort(SORTERS[activeSort] || SORTERS.popular);
   fleetGrid.innerHTML = list.map(carCard).join('');
   fleetEmpty.hidden = list.length > 0;
+}
+
+/* open booking modal from car card */
+fleetGrid.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-book]');
+  if (btn) openBookingModal(btn.dataset.book);
+});
+
+/* ================== MODEL SEARCH (autocomplete) ================== */
+const modelSearch = document.getElementById('modelSearch');
+const searchSuggest = document.getElementById('searchSuggest');
+
+function suggestList(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  return CARS.filter(c => c.name.toLowerCase().includes(q)).slice(0, 6);
+}
+
+function renderSuggestions(query) {
+  const matches = suggestList(query);
+  if (!query.trim()) { searchSuggest.hidden = true; searchSuggest.innerHTML = ''; return; }
+  searchSuggest.innerHTML = matches.length
+    ? matches.map(c => `<button type="button" class="suggest-item" data-pick="${c.id}"><span>${c.name}</span><span>${c.price}₾</span></button>`).join('')
+    : `<div class="suggest-empty">${t('search_empty')}</div>`;
+  searchSuggest.hidden = false;
+}
+
+if (modelSearch) {
+  modelSearch.addEventListener('input', () => {
+    searchQuery = modelSearch.value.trim().toLowerCase();
+    activeCat = 'all';
+    document.querySelectorAll('#fleetFilters .chip').forEach(c => c.classList.toggle('active', c.dataset.cat === 'all'));
+    renderFleet();
+    renderSuggestions(modelSearch.value);
+  });
+  modelSearch.addEventListener('focus', () => renderSuggestions(modelSearch.value));
+  searchSuggest.addEventListener('click', (e) => {
+    const item = e.target.closest('[data-pick]');
+    if (!item) return;
+    const car = CARS.find(c => c.id === item.dataset.pick);
+    if (!car) return;
+    modelSearch.value = car.name;
+    searchQuery = car.name.toLowerCase();
+    renderFleet();
+    searchSuggest.hidden = true;
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.fleet-search')) searchSuggest.hidden = true;
+  });
+}
+
+/* ================== FLEET SORT ================== */
+const fleetSort = document.getElementById('fleetSort');
+if (fleetSort) {
+  fleetSort.addEventListener('change', () => {
+    activeSort = fleetSort.value;
+    renderFleet();
+  });
 }
 
 /* filters */
@@ -203,6 +425,9 @@ function applyLang() {
   document.documentElement.lang = lang;
   document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPh);
   });
   document.querySelectorAll('.lang-opt').forEach(o =>
     o.classList.toggle('active', o.dataset.lang === lang)
@@ -249,7 +474,7 @@ mobileMenu.addEventListener('click', (e) => {
 });
 
 /* active nav link on scroll */
-const sections = ['top', 'fleet', 'categories', 'why', 'contact'];
+const sections = ['top', 'fleet', 'categories', 'why', 'faq', 'contact'];
 const navLinks = document.querySelectorAll('.nav-link');
 const sectionObserver = new IntersectionObserver((entries) => {
   entries.forEach(en => {
@@ -285,6 +510,261 @@ ret.setDate(ret.getDate() + 3);
 to.min = fmt(today);
 to.value = fmt(ret);
 from.addEventListener('change', () => { to.min = from.value; if (to.value < from.value) to.value = from.value; });
+
+/* ================== MODALS (generic open/close) ================== */
+function openModal(backdrop) {
+  backdrop.classList.add('open');
+  backdrop.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(backdrop) {
+  backdrop.classList.remove('open');
+  backdrop.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('.modal-backdrop').forEach(bd => {
+  bd.addEventListener('click', (e) => { if (e.target === bd) closeModal(bd); });
+  bd.querySelectorAll('.modal-close').forEach(btn => btn.addEventListener('click', () => closeModal(bd)));
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  document.querySelectorAll('.modal-backdrop.open').forEach(bd => closeModal(bd));
+});
+
+/* ================== TERMS MODAL ================== */
+const termsModal = document.getElementById('termsModal');
+document.querySelectorAll('.js-terms-link').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (termsModal) openModal(termsModal);
+  });
+});
+
+/* ================== FAQ (tabs + accordion) ================== */
+let activeFaqCat = 'booking';
+const faqTabs = document.getElementById('faqTabs');
+if (faqTabs) {
+  faqTabs.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-faqcat]');
+    if (!btn) return;
+    activeFaqCat = btn.dataset.faqcat;
+    faqTabs.querySelectorAll('[data-faqcat]').forEach(c => c.classList.toggle('active', c === btn));
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.hidden = item.dataset.cat !== activeFaqCat;
+    });
+  });
+}
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => btn.closest('.faq-item').classList.toggle('open'));
+});
+
+/* ================== BOOKING MODAL ================== */
+const bookingModal = document.getElementById('bookingModal');
+const calGrid = document.getElementById('calGrid');
+const calTitle = document.getElementById('calTitle');
+const calRangeTxt = document.getElementById('calRangeTxt');
+const addonList = document.getElementById('addonList');
+
+const bookState = {
+  car: null,
+  booked: new Set(),
+  viewMonth: null,
+  rangeStart: null,
+  rangeEnd: null,
+  addons: new Set()
+};
+
+function hashCode(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = (h << 5) - h + str.charCodeAt(i) | 0;
+  return h;
+}
+function mulberry32(seed) {
+  return function () {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let r = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    r = r + Math.imul(r ^ r >>> 7, 61 | r) ^ r;
+    return ((r ^ r >>> 14) >>> 0) / 4294967296;
+  };
+}
+function getBookedDates(carId) {
+  const rnd = mulberry32(hashCode(carId));
+  const set = new Set();
+  const base = new Date(today); base.setHours(0, 0, 0, 0);
+  for (let i = 1; i < 60; i++) {
+    if (rnd() < 0.16) {
+      const d = new Date(base); d.setDate(d.getDate() + i);
+      set.add(fmt(d));
+    }
+  }
+  return set;
+}
+function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
+function daysBetween(a, b) {
+  const ms = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate()) - Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  return Math.round(ms / 86400000);
+}
+function firstAvailable(booked, from) {
+  const d = new Date(from); d.setHours(0, 0, 0, 0);
+  let i = 0;
+  while (booked.has(fmt(d)) && i < 60) { d.setDate(d.getDate() + 1); i++; }
+  return d;
+}
+
+function openBookingModal(carId) {
+  const car = CARS.find(c => c.id === carId);
+  if (!car || !bookingModal) return;
+  bookState.car = car;
+  bookState.booked = getBookedDates(car.id);
+  bookState.addons = new Set();
+  const start = firstAvailable(bookState.booked, today);
+  bookState.rangeStart = start;
+  bookState.rangeEnd = addDays(start, 2);
+  bookState.viewMonth = new Date(start.getFullYear(), start.getMonth(), 1);
+
+  document.getElementById('modalCarImg').src = car.img;
+  document.getElementById('modalCarImg').alt = car.name;
+  document.getElementById('modalCarName').textContent = car.name;
+  document.getElementById('modalCarMeta').textContent = car.year + ' · ' + car.price + '₾ ' + t('per_day');
+
+  renderCalendar();
+  renderAddons();
+  updatePricing();
+  openModal(bookingModal);
+}
+
+function renderCalendar() {
+  if (!bookState.car) return;
+  const y = bookState.viewMonth.getFullYear();
+  const m = bookState.viewMonth.getMonth();
+  calTitle.textContent = MONTHS[lang][m] + ' ' + y;
+
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+  const firstDow = (new Date(y, m, 1).getDay() + 6) % 7; // Monday-first
+  const todayMid = new Date(today); todayMid.setHours(0, 0, 0, 0);
+
+  let html = WEEKDAYS[lang].map(d => `<div class="cal-dow">${d}</div>`).join('');
+  for (let i = 0; i < firstDow; i++) html += `<div class="cal-day empty"></div>`;
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(y, m, day);
+    const key = fmt(date);
+    const isPast = date < todayMid;
+    const isBooked = bookState.booked.has(key);
+    const isStart = bookState.rangeStart && fmt(bookState.rangeStart) === key;
+    const isEnd = bookState.rangeEnd && fmt(bookState.rangeEnd) === key;
+    const inRange = bookState.rangeStart && bookState.rangeEnd && date > bookState.rangeStart && date < bookState.rangeEnd;
+    const cls = ['cal-day'];
+    if (isPast) cls.push('past');
+    if (isBooked) cls.push('booked');
+    if (isStart) cls.push('range-start');
+    if (isEnd) cls.push('range-end');
+    if (inRange) cls.push('in-range');
+    const disabled = isPast || isBooked;
+    html += `<button type="button" class="${cls.join(' ')}" data-date="${key}" ${disabled ? 'disabled' : ''}>${day}</button>`;
+  }
+  calGrid.innerHTML = html;
+
+  const startStr = bookState.rangeStart ? bookState.rangeStart.toLocaleDateString(lang === 'ka' ? 'ka-GE' : 'en-GB') : '—';
+  const endStr = bookState.rangeEnd ? bookState.rangeEnd.toLocaleDateString(lang === 'ka' ? 'ka-GE' : 'en-GB') : '—';
+  calRangeTxt.innerHTML = `${t('cal_pick')}: <strong>${startStr}</strong> &nbsp;→&nbsp; ${t('cal_return')}: <strong>${endStr}</strong>`;
+}
+
+calGrid.addEventListener('click', (e) => {
+  const btn = e.target.closest('.cal-day:not(.empty):not(.past):not(.booked)');
+  if (!btn) return;
+  const picked = new Date(btn.dataset.date);
+  if (!bookState.rangeStart || (bookState.rangeStart && bookState.rangeEnd)) {
+    bookState.rangeStart = picked;
+    bookState.rangeEnd = null;
+  } else if (picked < bookState.rangeStart) {
+    bookState.rangeEnd = bookState.rangeStart;
+    bookState.rangeStart = picked;
+  } else {
+    bookState.rangeEnd = picked;
+  }
+  renderCalendar();
+  updatePricing();
+});
+
+document.getElementById('calPrev').addEventListener('click', () => {
+  const v = bookState.viewMonth;
+  const prev = new Date(v.getFullYear(), v.getMonth() - 1, 1);
+  const curMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  if (prev < curMonth) return;
+  bookState.viewMonth = prev;
+  renderCalendar();
+});
+document.getElementById('calNext').addEventListener('click', () => {
+  const v = bookState.viewMonth;
+  bookState.viewMonth = new Date(v.getFullYear(), v.getMonth() + 1, 1);
+  renderCalendar();
+});
+
+function renderAddons() {
+  addonList.innerHTML = ADDONS.map(a => `
+    <label class="addon-item">
+      <input type="checkbox" value="${a.id}">
+      <span class="addon-name">${a[lang] || a.ka}</span>
+      <span class="addon-price">+${a.price}₾ ${a.per === 'day' ? ('/ ' + t('day_short')) : ('· ' + t('flat_short'))}</span>
+    </label>`).join('');
+}
+addonList.addEventListener('change', (e) => {
+  const cb = e.target.closest('input[type="checkbox"]');
+  if (!cb) return;
+  if (cb.checked) bookState.addons.add(cb.value);
+  else bookState.addons.delete(cb.value);
+  updatePricing();
+});
+
+function updatePricing() {
+  const car = bookState.car;
+  if (!car) return;
+  const days = Math.max(1, daysBetween(new Date(bookState.rangeStart), new Date(bookState.rangeEnd || addDays(bookState.rangeStart, 1))));
+  let addonsTotal = 0;
+  ADDONS.forEach(a => {
+    if (bookState.addons.has(a.id)) addonsTotal += a.per === 'day' ? a.price * days : a.price;
+  });
+  const total = car.price * days + addonsTotal;
+  const deposit = car.price * 2;
+
+  document.getElementById('priceDaily').textContent = car.price + '₾';
+  document.getElementById('priceDays').textContent = days;
+  document.getElementById('priceAddons').textContent = addonsTotal + '₾';
+  document.getElementById('priceDeposit').textContent = deposit + '₾';
+  document.getElementById('priceInsurance').textContent = bookState.addons.has('insurance') ? t('price_insurance_full') : t('price_insurance_basic');
+  document.getElementById('priceTotal').textContent = total + '₾';
+}
+
+document.getElementById('confirmBooking').addEventListener('click', () => {
+  const car = bookState.car;
+  if (!car) return;
+  const days = Math.max(1, daysBetween(new Date(bookState.rangeStart), new Date(bookState.rangeEnd || addDays(bookState.rangeStart, 1))));
+  const startStr = bookState.rangeStart.toLocaleDateString(lang === 'ka' ? 'ka-GE' : 'en-GB');
+  const endStr = (bookState.rangeEnd || addDays(bookState.rangeStart, 1)).toLocaleDateString(lang === 'ka' ? 'ka-GE' : 'en-GB');
+  const addonNames = ADDONS.filter(a => bookState.addons.has(a.id)).map(a => a[lang] || a.ka);
+  const total = document.getElementById('priceTotal').textContent;
+
+  let msg = t('wa_msg') + car.name + ' (' + car.year + ')\n';
+  msg += t('cal_pick') + ': ' + startStr + '\n';
+  msg += t('cal_return') + ': ' + endStr + '\n';
+  msg += t('price_days') + ': ' + days + '\n';
+  if (addonNames.length) msg += t('addons_label') + ': ' + addonNames.join(', ') + '\n';
+  msg += t('price_total') + ': ' + total;
+
+  window.open('https://wa.me/995577449977?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+});
+
+/* re-sync open modal content on language switch */
+const _applyLangBase = applyLang;
+applyLang = function () {
+  _applyLangBase();
+  if (bookingModal && bookingModal.classList.contains('open')) {
+    renderCalendar();
+    renderAddons();
+    updatePricing();
+  }
+};
 
 /* ================== INIT ================== */
 applyLang();
