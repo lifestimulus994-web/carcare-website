@@ -1,46 +1,21 @@
-/* ================== DATA ================== */
-const CARS = [
-  {
-    id: 'bmw3', name: 'BMW 3 Series', year: 2022, cat: 'sedan', price: 140, popularity: 80,
-    img: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=70',
-    gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 5
-  },
-  {
-    id: 'tesla3', name: 'Tesla Model 3', year: 2023, cat: 'sedan', price: 170, tag: true, popularity: 98,
-    img: 'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&w=800&q=70',
-    gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ელექტრო', en: 'Electric' }, seats: 5
-  },
-  {
-    id: 'crv', name: 'Honda CR-V', year: 2022, cat: 'suv', price: 150, popularity: 75,
-    img: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=800&q=70',
-    gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ჰიბრიდი', en: 'Hybrid' }, seats: 5
-  },
-  {
-    id: 'expedition', name: 'Ford Expedition', year: 2022, cat: 'suv', price: 220, popularity: 60,
-    img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=70',
-    gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 7
-  },
-  {
-    id: 'porsche', name: 'Porsche 911 Turbo', year: 2022, cat: 'sport', price: 450, tag: true, popularity: 92,
-    img: 'https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&w=800&q=70',
-    gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 2
-  },
-  {
-    id: 'mustang', name: 'Ford Mustang GT', year: 2021, cat: 'sport', price: 280, popularity: 70,
-    img: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=800&q=70',
-    gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 4
-  },
-  {
-    id: 'merc-cla', name: 'Mercedes-Benz CLA', year: 2022, cat: 'premium', price: 190, popularity: 65,
-    img: 'https://images.unsplash.com/photo-1570733577524-3a047079e80d?auto=format&fit=crop&w=800&q=70',
-    gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 5
-  },
-  {
-    id: 'amg-gt', name: 'Mercedes-AMG GT', year: 2021, cat: 'premium', price: 400, popularity: 84,
-    img: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=70',
-    gear: { ka: 'ავტომატი', en: 'Automatic' }, fuel: { ka: 'ბენზინი', en: 'Petrol' }, seats: 2
-  }
-];
+/* ================== DATA (loaded from Supabase — see js/supabase-client.js) ================== */
+let CARS = [];
+
+async function loadCars() {
+  const { data, error } = await sb
+    .from('cars')
+    .select('*')
+    .eq('active', true)
+    .order('popularity', { ascending: false });
+  if (error) { console.error('loadCars failed:', error); return; }
+  CARS = data.map(row => ({
+    id: row.id, name: row.name, year: row.year, cat: row.category,
+    price: row.price_multiday, price1: row.price_1day, priceMulti: row.price_multiday,
+    img: row.image_url, tag: row.featured, popularity: row.popularity,
+    gear: row.gearbox, fuel: row.fuel, engine: row.engine, seats: row.seats
+  }));
+  renderFleet();
+}
 
 /* ================== ADDONS ================== */
 const ADDONS = [
@@ -316,8 +291,8 @@ function carCard(car) {
         </div>
       </div>
       <ul class="car-specs">
-        <li>${SPEC_ICONS.gear}${car.gear[lang] || car.gear.ka}</li>
-        <li>${SPEC_ICONS.fuel}${car.fuel[lang] || car.fuel.ka}</li>
+        <li>${SPEC_ICONS.gear}${car.gear}</li>
+        <li>${SPEC_ICONS.fuel}${car.fuel}</li>
         <li>${SPEC_ICONS.seats}${car.seats} ${t('seats')}</li>
       </ul>
       <button type="button" class="btn btn-primary car-book" data-book="${car.id}">${t('book')}</button>
@@ -574,29 +549,21 @@ const bookState = {
   addons: new Set()
 };
 
-function hashCode(str) {
-  let h = 0;
-  for (let i = 0; i < str.length; i++) h = (h << 5) - h + str.charCodeAt(i) | 0;
-  return h;
+/* parse a 'YYYY-MM-DD' string as a local date (not UTC) so it lines up with
+   the locally-constructed calendar-grid dates once both go through fmt() */
+function parseLocalDate(isoDateStr) {
+  const [y, m, d] = isoDateStr.split('-').map(Number);
+  return new Date(y, m - 1, d);
 }
-function mulberry32(seed) {
-  return function () {
-    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
-    let r = Math.imul(seed ^ seed >>> 15, 1 | seed);
-    r = r + Math.imul(r ^ r >>> 7, 61 | r) ^ r;
-    return ((r ^ r >>> 14) >>> 0) / 4294967296;
-  };
-}
-function getBookedDates(carId) {
-  const rnd = mulberry32(hashCode(carId));
+async function fetchBookedDates(carId) {
   const set = new Set();
-  const base = new Date(today); base.setHours(0, 0, 0, 0);
-  for (let i = 1; i < 60; i++) {
-    if (rnd() < 0.16) {
-      const d = new Date(base); d.setDate(d.getDate() + i);
-      set.add(fmt(d));
-    }
-  }
+  const { data, error } = await sb.from('booking_blocks').select('start_date,end_date').eq('car_id', carId);
+  if (error) { console.error('fetchBookedDates failed:', error); return set; }
+  data.forEach(block => {
+    const d = parseLocalDate(block.start_date);
+    const end = parseLocalDate(block.end_date);
+    while (d <= end) { set.add(fmt(d)); d.setDate(d.getDate() + 1); }
+  });
   return set;
 }
 function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
@@ -611,26 +578,41 @@ function firstAvailable(booked, from) {
   return d;
 }
 
-function openBookingModal(carId) {
+async function openBookingModal(carId) {
   const car = CARS.find(c => c.id === carId);
   if (!car || !bookingModal) return;
   bookState.car = car;
-  bookState.booked = getBookedDates(car.id);
   bookState.addons = new Set();
-  const start = firstAvailable(bookState.booked, today);
-  bookState.rangeStart = start;
-  bookState.rangeEnd = addDays(start, 2);
-  bookState.viewMonth = new Date(start.getFullYear(), start.getMonth(), 1);
+  bookState.booked = new Set();
 
   document.getElementById('modalCarImg').src = car.img;
   document.getElementById('modalCarImg').alt = car.name;
   document.getElementById('modalCarName').textContent = car.name;
-  document.getElementById('modalCarMeta').textContent = car.year + ' · ' + car.price + '₾ ' + t('per_day');
+  document.getElementById('modalCarMeta').textContent =
+    car.year + ' · ' + car.engine + ' · ' + car.gear + ' · ' + car.price1 + '₾ (1 ' + t('day_short') + ') / ' + car.priceMulti + '₾ ' + t('per_day');
 
+  /* open with a provisional range immediately — most days are free, so this
+     already looks right; upgrade to the real booked-day set the moment it arrives.
+     firstAvailable() also midnight-normalizes "today", which matters: the calendar
+     grid's date keys are built from local-midnight Date objects, so the range
+     start must be too, or the highlighted cell drifts by a day. */
+  const provisionalStart = firstAvailable(bookState.booked, today);
+  bookState.rangeStart = provisionalStart;
+  bookState.rangeEnd = addDays(provisionalStart, 2);
+  bookState.viewMonth = new Date(provisionalStart.getFullYear(), provisionalStart.getMonth(), 1);
   renderCalendar();
   renderAddons();
   updatePricing();
   openModal(bookingModal);
+
+  bookState.booked = await fetchBookedDates(car.id);
+  if (bookState.car !== car) return; // user opened a different car before this resolved
+  const start = firstAvailable(bookState.booked, today);
+  bookState.rangeStart = start;
+  bookState.rangeEnd = addDays(start, 2);
+  bookState.viewMonth = new Date(start.getFullYear(), start.getMonth(), 1);
+  renderCalendar();
+  updatePricing();
 }
 
 function renderCalendar() {
@@ -721,14 +703,16 @@ function updatePricing() {
   const car = bookState.car;
   if (!car) return;
   const days = Math.max(1, daysBetween(new Date(bookState.rangeStart), new Date(bookState.rangeEnd || addDays(bookState.rangeStart, 1))));
+  const perDayRate = days === 1 ? car.price1 : car.priceMulti;
+  const rentalTotal = days === 1 ? car.price1 : car.priceMulti * days;
   let addonsTotal = 0;
   ADDONS.forEach(a => {
     if (bookState.addons.has(a.id)) addonsTotal += a.per === 'day' ? a.price * days : a.price;
   });
-  const total = car.price * days + addonsTotal;
-  const deposit = car.price * 2;
+  const total = rentalTotal + addonsTotal;
+  const deposit = car.priceMulti * 2;
 
-  document.getElementById('priceDaily').textContent = car.price + '₾';
+  document.getElementById('priceDaily').textContent = perDayRate + '₾' + (days === 1 ? ' (1 ' + t('day_short') + ')' : '');
   document.getElementById('priceDays').textContent = days;
   document.getElementById('priceAddons').textContent = addonsTotal + '₾';
   document.getElementById('priceDeposit').textContent = deposit + '₾';
@@ -768,3 +752,4 @@ applyLang = function () {
 
 /* ================== INIT ================== */
 applyLang();
+loadCars();
