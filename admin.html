@@ -188,6 +188,13 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    if (typeof window.supabase === 'undefined') {
+      var err = document.getElementById('loginError');
+      err.textContent = 'ვერ ჩაიტვირთა კავშირის ბიბლიოთეკა — გადაამოწმე ინტერნეტი ან გამორთე ad-blocker/VPN და განაახლე გვერდი.';
+      err.hidden = false;
+    }
+  </script>
   <script src="js/supabase-client.js"></script>
   <script src="js/admin.js"></script>
 </body>

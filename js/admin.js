@@ -50,15 +50,28 @@ sb.auth.onAuthStateChange((_event, session) => {
   if (session) showDashboard(session.user); else showLogin();
 });
 
+const loginBtn = document.getElementById('loginBtn');
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   loginError.hidden = true;
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'შედის...';
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
-  const { error } = await sb.auth.signInWithPassword({ email, password });
-  if (error) {
-    loginError.textContent = 'შესვლა ვერ მოხერხდა — გადაამოწმე email/პაროლი.';
+  try {
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+      console.error('Supabase login error:', error);
+      loginError.textContent = 'შესვლა ვერ მოხერხდა: ' + error.message;
+      loginError.hidden = false;
+    }
+  } catch (err) {
+    console.error('Login threw:', err);
+    loginError.textContent = 'დაფიქსირდა ტექნიკური შეცდომა — გახსენი Console (F12) და გადაამოწმე დეტალები.';
     loginError.hidden = false;
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.textContent = 'შესვლა';
   }
 });
 

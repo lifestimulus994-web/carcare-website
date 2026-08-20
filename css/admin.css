@@ -1,3 +1,8 @@
+/* [hidden] must win over any element's own `display` rule (e.g. .admin-login-wrap
+   sets display:grid, which otherwise beats the UA stylesheet's [hidden]{display:none}
+   on specificity ties, leaving the "hidden" view visibly stuck on screen) */
+[hidden] { display: none !important; }
+
 /* ============ ADMIN SHELL ============ */
 body.admin-body {
   background: var(--bg);
