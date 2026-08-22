@@ -17,6 +17,64 @@ async function loadCars() {
   renderFleet();
 }
 
+/* ================== CATEGORIES (loaded from Supabase, admin-managed) ================== */
+let CATEGORIES = [];
+
+const CAT_ICONS = {
+  sedan: '<svg viewBox="0 0 48 24" width="52" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17h40M6 17l2-5h9l4-4h10l6 4h7l2 5"/><circle cx="13" cy="17" r="2.6"/><circle cx="36" cy="17" r="2.6"/></svg>',
+  suv: '<svg viewBox="0 0 48 24" width="52" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16h40M5 16l2-7h13l3-4h12l5 6h5l1 5"/><circle cx="13" cy="16" r="3"/><circle cx="36" cy="16" r="3"/></svg>',
+  sport: '<svg viewBox="0 0 48 24" width="52" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18h40M6 18l3-4 8-2 6-5h8l8 7h6l1 4"/><circle cx="13" cy="18" r="2.4"/><circle cx="37" cy="18" r="2.4"/></svg>',
+  premium: '<svg viewBox="0 0 48 24" width="52" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17h40M7 17l1-6h12l5-5h9l7 6h5l1 5"/><circle cx="14" cy="17" r="2.6"/><circle cx="35" cy="17" r="2.6"/><path d="M24 6l1.2 2.5L28 9l-2.2 2 .5 3-2.3-1.5L21.7 14l.5-3L20 9l2.8-.5L24 6z" fill="currentColor" stroke="none" opacity=".9"/></svg>',
+  default: '<svg viewBox="0 0 48 24" width="52" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17h40M6 17l2-6h28l2 6"/><circle cx="14" cy="17" r="2.6"/><circle cx="34" cy="17" r="2.6"/></svg>'
+};
+
+function categoryLabel(slug) {
+  const c = CATEGORIES.find(c => c.slug === slug);
+  if (!c) return slug;
+  return (lang === 'en' ? c.label_en : c.label_ka) || c.label_ka;
+}
+
+async function loadCategories() {
+  const { data, error } = await sb.from('categories').select('*').eq('active', true).order('sort_order');
+  if (error) { console.error('loadCategories failed:', error); return; }
+  CATEGORIES = data;
+  renderCategoryUI();
+  renderFleet();
+}
+
+function renderCategoryUI() {
+  const fleetFilters = document.getElementById('fleetFilters');
+  const catGrid = document.getElementById('catGrid');
+  const sCat = document.getElementById('sCat');
+  const footCatLinks = document.getElementById('footCatLinks');
+
+  fleetFilters.innerHTML = `<button class="chip${activeCat === 'all' ? ' active' : ''}" data-cat="all">${t('cat_all')}</button>` +
+    CATEGORIES.map(c => `<button class="chip${activeCat === c.slug ? ' active' : ''}" data-cat="${c.slug}">${lang === 'en' ? c.label_en : c.label_ka}</button>`).join('');
+
+  catGrid.innerHTML = CATEGORIES.map((c, i) => `
+    <button class="cat-tile reveal d${i}" data-cat="${c.slug}">
+      ${CAT_ICONS[c.slug] || CAT_ICONS.default}
+      <span>${lang === 'en' ? c.label_en : c.label_ka}</span>
+    </button>`).join('');
+  catGrid.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  sCat.innerHTML = `<option value="all">${t('cat_all')}</option>` +
+    CATEGORIES.map(c => `<option value="${c.slug}">${lang === 'en' ? c.label_en : c.label_ka}</option>`).join('');
+
+  footCatLinks.innerHTML = CATEGORIES.map(c => `<a href="#fleet" data-cat-link="${c.slug}">${lang === 'en' ? c.label_en : c.label_ka}</a>`).join('');
+}
+
+/* ================== SITE TEXTS (admin-editable copy, overrides the defaults below) ================== */
+async function loadSiteTexts() {
+  const { data, error } = await sb.from('site_texts').select('key,value_ka,value_en');
+  if (error) { console.error('loadSiteTexts failed:', error); return; }
+  data.forEach(row => {
+    if (row.value_ka) I18N.ka[row.key] = row.value_ka;
+    if (row.value_en) I18N.en[row.key] = row.value_en;
+  });
+  applyLang();
+}
+
 /* ================== ADDONS ================== */
 const ADDONS = [
   { id: 'childseat', price: 15, per: 'day', ka: 'საბავშვო სავარძელი', en: 'Child Seat' },
@@ -41,7 +99,7 @@ const I18N = {
     s_loc: 'აღების ადგილი', s_from: 'აღების თარიღი', s_to: 'დაბრუნების თარიღი',
     s_cat: 'კატეგორია', s_btn: 'მოძებნა',
     s_loc_tbilisi: 'თბილისი', s_loc_airport: 'თბილისის აეროპორტი', s_loc_batumi: 'ბათუმი', s_loc_kutaisi: 'ქუთაისი',
-    cat_all: 'ყველა', cat_sedan: 'სედანი', cat_suv: 'ჯიპი / SUV', cat_sport: 'სპორტული', cat_premium: 'პრემიუმი',
+    cat_all: 'ყველა',
     fleet_eyebrow: 'ავტოპარკი', fleet_title: 'გამორჩეული ავტომობილები',
     fleet_empty: 'ამ კატეგორიაში მანქანა ვერ მოიძებნა.',
     cats_eyebrow: 'კატეგორიები', cats_title: 'აირჩიე შენი სტილით',
@@ -145,7 +203,7 @@ const I18N = {
     s_loc: 'Pick-up location', s_from: 'Pick-up date', s_to: 'Return date',
     s_cat: 'Category', s_btn: 'Search',
     s_loc_tbilisi: 'Tbilisi', s_loc_airport: 'Tbilisi Airport', s_loc_batumi: 'Batumi', s_loc_kutaisi: 'Kutaisi',
-    cat_all: 'All', cat_sedan: 'Sedan', cat_suv: 'SUV', cat_sport: 'Sport', cat_premium: 'Premium',
+    cat_all: 'All',
     fleet_eyebrow: 'Our Fleet', fleet_title: 'Featured Vehicles',
     fleet_empty: 'No cars found in this category.',
     cats_eyebrow: 'Categories', cats_title: 'Choose Your Style',
@@ -283,7 +341,7 @@ function carCard(car) {
       <div class="car-top">
         <div>
           <h3 class="car-name">${car.name}</h3>
-          <span class="car-year">${car.year} · ${t('cat_' + car.cat).split(' ')[0]}</span>
+          <span class="car-year">${car.year} · ${categoryLabel(car.cat).split(' ')[0]}</span>
         </div>
         <div class="car-price">
           <strong>${car.price}₾</strong>
@@ -375,19 +433,22 @@ document.getElementById('fleetFilters').addEventListener('click', (e) => {
   renderFleet();
 });
 
-/* category tiles + footer links → filter fleet */
+/* category tiles + footer links → filter fleet (delegated: both containers are
+   filled dynamically by loadCategories(), so the elements don't exist at page load) */
 function filterAndGo(cat) {
   activeCat = cat;
   document.querySelectorAll('#fleetFilters .chip').forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
   renderFleet();
   document.getElementById('fleet').scrollIntoView({ behavior: 'smooth' });
 }
-document.querySelectorAll('.cat-tile').forEach(tile =>
-  tile.addEventListener('click', () => filterAndGo(tile.dataset.cat))
-);
-document.querySelectorAll('[data-cat-link]').forEach(a =>
-  a.addEventListener('click', () => filterAndGo(a.dataset.catLink))
-);
+document.getElementById('catGrid').addEventListener('click', (e) => {
+  const tile = e.target.closest('.cat-tile');
+  if (tile) filterAndGo(tile.dataset.cat);
+});
+document.getElementById('footCatLinks').addEventListener('click', (e) => {
+  const a = e.target.closest('[data-cat-link]');
+  if (a) filterAndGo(a.dataset.catLink);
+});
 
 /* search bar */
 document.getElementById('searchBar').addEventListener('submit', (e) => {
@@ -407,6 +468,7 @@ function applyLang() {
   document.querySelectorAll('.lang-opt').forEach(o =>
     o.classList.toggle('active', o.dataset.lang === lang)
   );
+  if (CATEGORIES.length) renderCategoryUI();
   renderFleet();
 }
 document.getElementById('langSwitch').addEventListener('click', () => {
@@ -752,4 +814,6 @@ applyLang = function () {
 
 /* ================== INIT ================== */
 applyLang();
+loadCategories();
 loadCars();
+loadSiteTexts();

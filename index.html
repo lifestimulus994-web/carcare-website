@@ -120,13 +120,7 @@
         </div>
         <div class="search-field">
           <label for="sCat" data-i18n="s_cat">კატეგორია</label>
-          <select id="sCat">
-            <option value="all" data-i18n="cat_all">ყველა</option>
-            <option value="sedan" data-i18n="cat_sedan">სედანი</option>
-            <option value="suv" data-i18n="cat_suv">ჯიპი / SUV</option>
-            <option value="sport" data-i18n="cat_sport">სპორტული</option>
-            <option value="premium" data-i18n="cat_premium">პრემიუმი</option>
-          </select>
+          <select id="sCat"></select>
         </div>
         <button type="submit" class="btn btn-primary btn-search">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -153,13 +147,7 @@
           <div class="search-suggest" id="searchSuggest" hidden></div>
         </div>
         <div class="fleet-controls">
-          <div class="fleet-filters" id="fleetFilters">
-            <button class="chip active" data-cat="all" data-i18n="cat_all">ყველა</button>
-            <button class="chip" data-cat="sedan" data-i18n="cat_sedan">სედანი</button>
-            <button class="chip" data-cat="suv" data-i18n="cat_suv">ჯიპი / SUV</button>
-            <button class="chip" data-cat="sport" data-i18n="cat_sport">სპორტული</button>
-            <button class="chip" data-cat="premium" data-i18n="cat_premium">პრემიუმი</button>
-          </div>
+          <div class="fleet-filters" id="fleetFilters"></div>
           <select id="fleetSort" class="sort-select">
             <option value="popular" data-i18n="sort_popular">პოპულარობით</option>
             <option value="price_asc" data-i18n="sort_price_asc">ფასი: დაბლიდან მაღლა</option>
@@ -183,24 +171,7 @@
           <h2 data-i18n="cats_title">აირჩიე შენი სტილით</h2>
         </div>
       </div>
-      <div class="cat-grid">
-        <button class="cat-tile reveal" data-cat="sedan">
-          <svg viewBox="0 0 48 24" width="52" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17h40M6 17l2-5h9l4-4h10l6 4h7l2 5"/><circle cx="13" cy="17" r="2.6"/><circle cx="36" cy="17" r="2.6"/></svg>
-          <span data-i18n="cat_sedan">სედანი</span>
-        </button>
-        <button class="cat-tile reveal d1" data-cat="suv">
-          <svg viewBox="0 0 48 24" width="52" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16h40M5 16l2-7h13l3-4h12l5 6h5l1 5"/><circle cx="13" cy="16" r="3"/><circle cx="36" cy="16" r="3"/></svg>
-          <span data-i18n="cat_suv">ჯიპი / SUV</span>
-        </button>
-        <button class="cat-tile reveal d2" data-cat="sport">
-          <svg viewBox="0 0 48 24" width="52" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18h40M6 18l3-4 8-2 6-5h8l8 7h6l1 4"/><circle cx="13" cy="18" r="2.4"/><circle cx="37" cy="18" r="2.4"/></svg>
-          <span data-i18n="cat_sport">სპორტული</span>
-        </button>
-        <button class="cat-tile reveal d3" data-cat="premium">
-          <svg viewBox="0 0 48 24" width="52" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17h40M7 17l1-6h12l5-5h9l7 6h5l1 5"/><circle cx="14" cy="17" r="2.6"/><circle cx="35" cy="17" r="2.6"/><path d="M24 6l1.2 2.5L28 9l-2.2 2 .5 3-2.3-1.5L21.7 14l.5-3L20 9l2.8-.5L24 6z" fill="currentColor" stroke="none" opacity=".9"/></svg>
-          <span data-i18n="cat_premium">პრემიუმი</span>
-        </button>
-      </div>
+      <div class="cat-grid" id="catGrid"></div>
     </div>
   </section>
 
@@ -454,10 +425,7 @@
       </div>
       <div class="footer-col">
         <h4 data-i18n="foot_cats">კატეგორიები</h4>
-        <a href="#fleet" data-cat-link="sedan" data-i18n="cat_sedan">სედანი</a>
-        <a href="#fleet" data-cat-link="suv" data-i18n="cat_suv">ჯიპი / SUV</a>
-        <a href="#fleet" data-cat-link="sport" data-i18n="cat_sport">სპორტული</a>
-        <a href="#fleet" data-cat-link="premium" data-i18n="cat_premium">პრემიუმი</a>
+        <div id="footCatLinks"></div>
       </div>
       <div class="footer-col">
         <h4 data-i18n="foot_contact">კონტაქტი</h4>

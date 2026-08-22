@@ -154,6 +154,51 @@ body.admin-body {
 }
 .empty-hint { color: var(--muted); font-size: .86rem; padding: 6px 0 14px; }
 
+/* ============ TABS ============ */
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+
+/* ============ TEXTS EDITOR ============ */
+.text-toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+.text-toolbar input {
+  flex: 1; min-width: 220px;
+  font-family: var(--font-geo); font-size: .9rem; color: var(--ink);
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: 10px;
+  padding: 10px 12px; outline: none;
+}
+.text-toolbar select {
+  font-family: var(--font-geo); font-size: .85rem; color: var(--ink);
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: 10px;
+  padding: 10px 12px; outline: none;
+}
+.text-section-head {
+  font-size: .78rem; font-weight: 700; color: var(--green); text-transform: uppercase;
+  margin: 22px 0 10px;
+}
+.text-section-head:first-child { margin-top: 0; }
+.text-row {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+.text-row-key { font-size: .74rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; font-family: monospace; }
+.text-row-fields { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: start; }
+.text-row-fields textarea {
+  font-family: var(--font-geo); font-size: .86rem; color: var(--ink);
+  background: var(--bg); border: 1.5px solid var(--line); border-radius: 9px;
+  padding: 8px 10px; resize: vertical; min-height: 40px; outline: none;
+}
+.text-row-fields textarea:focus { border-color: var(--green); }
+.text-row-save {
+  padding: 8px 16px; font-size: .82rem; white-space: nowrap; align-self: center;
+}
+.text-row.saved .text-row-save { background: var(--green-tint); color: var(--green-dark); }
+
+@media (max-width: 640px) {
+  .text-row-fields { grid-template-columns: 1fr; }
+  .text-row-save { width: 100%; }
+}
 @media (max-width: 640px) {
   .form-grid { grid-template-columns: 1fr; }
   .block-add { grid-template-columns: 1fr; }
